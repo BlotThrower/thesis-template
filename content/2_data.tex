@@ -1,3 +1,13 @@
-\chapter{Data}\label{ch:data}
+\chapter{Stand der Technik}\label{ch:Stand der Technik}
 
-\Blindtext
+\section{Die verwendeten Machine Learning Verfahren}
+\subsection{Logistische Regression}
+\subsection{Convolutional Neural Network}
+\subsection{Long Short Term Memory}
+Das LSTM gehört zur Gattung der Rekurrenten Neuronalen Netze (RNN) und ist darauf ausgelegt, einige fundementale Probleme die sowohl herkömmlichen CNNs als auch RNNs zu eigen sind zu lösen. Das RNN an sich setzt ein Konzept um, das den CNNs vorenthalten bleibt und theoretisch von hoher Bedeutung für diese Arbeit ist: das Behalten und Verwenden von vorher aufgenommenen Informationen zu einem späteren Zeitpung. Dies ermöglicht das Arbeiten mit sequentiellen Reihen an Daten, und das Verwenden früherer Zusammenhänge als Kontext für die Auswertung des Jetzigen, wie es sie in diesen Versuchen benötigt wird. Die Messreihe an Sensordaten stellt so eine Sequenz dar, und ist in ihrem Muster über einen Zeitraum aussagekräftiger als in den vereinzelten Ausschlägen ihrer Sensoren.
+\\
+\\
+Doch das Problem mit herkömmlichen RNNs ist ihre Unfähigkeit Informationen über längere Zeitintervalle zu behalten. Sepp Hochreiter hat dies in seiner 1997 erschienen Arbeit bereits thematisiert. In dieser spricht er vom sogenannten "decaying error back flow" (heute besser bekannt als das vanishing gradient problem), das bei zu langem Rückpropagieren der Fehler im Neuronalen Netz dazu führt, dass das Problem alsbald verschwindet und folglich die früheren Einheiten nichts mehr aus ihm lernen können. Analog hierzu ist das exploding gradient problem, bei dem der Fehler exponentiell ansteigt und so zu stark schwankenden Gewichten und unzuverlässigem Lernen führt. Um dieses Problem zu lösen, führt Hochreiter das "Constant Error Carousel" ein. Dieses wird in eine "Memory Cell" mit Input und Output Gates integriert. So können Informationen über lange Zeiträume gespeichert und für einen konstanten Fehlerfluss gesort werden. Die Gates sorgen dafür, dass nur relevante Informationen hinein und hinausgelangen.\footnote{\cite{Hochreiter1997}}
+\\
+\\
+Moderne LSTMs lösen immer noch diese Probleme, haben jedoch einen abgewandelten Ansatz. In ihrer modernen Form (wie sie auch die in den Tests verwendete PyTorch Library implementiert) verfügen die Netze über sogenannte Forget Gates. 

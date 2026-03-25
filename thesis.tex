@@ -19,12 +19,12 @@
 
 
 % details about your thesis
-\newcommand{\titel}{Suck my nuts.}
+\newcommand{\titel}{My title.}
 \newcommand{\artderarbeit}{Bachelorarbeit}  % {Bachelorarbeit,Masterarbeit}
 \newcommand{\autor}{Christian Gügel}
 \newcommand{\studiengang}{Medieninformatik}  % {Informatik,Wirtschaftsinformatik,Medieninformatik}
-\newcommand{\matrikelnr}{123\,4567}
-\newcommand{\erstgutachter}{Prof.\,Dr.~Ulrich von Zadow}
+\newcommand{\matrikelnr}{364\,3206}
+\newcommand{\erstgutachter}{Prof.\,Dr. Ulrich von Zadow}
 \newcommand{\zweitgutachter}{Prof.\,Dr.~Tobias Bocklet}
 \newcommand{\betreuer}{M.Sc.\,~Martina Schmidt}
 \newcommand{\unternehmen}{Musterfirma GmbH}
@@ -52,7 +52,8 @@
 \usepackage[T1]{fontenc}
 \usepackage{lmodern,relsize,textcomp,csquotes}
 \usepackage{amsmath,amsfonts}
-\usepackage[ngerman,english]{babel}  % flip for German thesis
+\usepackage[english, ngerman]{babel}
+\usepackage{datatool}[=v2.32]
 \usepackage[final]{graphicx}
 \usepackage{setspace,geometry,xcolor}
 \usepackage{makeidx}
@@ -141,14 +142,13 @@
 \frontmatter
 \include{cover}\cleardoublepage
 
-% download the following form (requires VPN) and complete it (hit save in your editor)
 % https://intern.ohmportal.de/fileadmin/Public_Docs/SB/SB_0009_FO_Pruefungsrechtliche_Erklaerung_und_Erklaerung_zur_Veroeffentlichung_der_Abschlussarbeit_public.pdf
-%\includepdf{SB_0009_FO_Pruefungsrechtliche_Erklaerung_und_Erklaerung_zur_Veroeffentlichung_der_Abschlussarbeit_public.pdf}\cleardoublepage
+\includepdf{SB_0009_FO_Pruefungsrechtliche_Erklaerung_und_Erklaerung_zur_Veroeffentlichung_der_Abschlussarbeit_public.pdf}\cleardoublepage
 
 \include{content/0_abstract}\cleardoublepage
 
 \tableofcontents
-
+\nocite{*}
 \mainmatter
 \include{content/1_intro}
 \include{content/2_data}
