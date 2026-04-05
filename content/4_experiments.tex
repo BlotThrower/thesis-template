@@ -1,3 +1,43 @@
-\chapter{Experiments}\label{ch:experiments}
+\chapter{Versuchsurchführung}\label{ch:experiments}
+\section{Aufnahme der Testdaten}
+Über vier Monate hinweg werden Trainingsdaten von unterschiedlichen Straßentypen gesammelt. Der Fokus liegt auf den häufigsten Arten von Belägen, die in üblichen europäischen Städten anzutreffen sind: 
 
-\Blindtext
+\begin{itemize}
+    \item \textbf{Asphalt}
+    \item \textbf{Verbund} (Betonstein- bzw.\ Verbundpflaster)
+    \item \textbf{Pflastersteine} (Naturstein- bzw.\ Kopfsteinpflaster)
+    \item \textbf{Feldweg} (Unbefestigter Weg, Erde, Schotter)
+\end{itemize}
+
+Diese werden zusätzlich in Qualitätsstufen unterteilt, um zu testen, welche maximale Granularität bei der Klassifizierung möglich und brauchbar ist.
+
+\begin{itemize}
+    \item \textbf{Asphalt}
+    \begin{itemize}
+        \item \textbf{Gut:} Glatte Oberfläche, frisch asphaltiert, kaum messbare Erschütterungen.
+        \item \textbf{Mittel:} Raue Oberfläche, leichte Risse, ausgebesserte oder geflickte Stellen.
+        \item \textbf{Schlecht:} Größere Schäden, Risse, Schlaglöcher, Baumwurzeln, starke und abrupte vertikale Beschleunigungen.
+    \end{itemize}
+    
+    \item \textbf{Verbund}
+    \begin{itemize}
+        \item \textbf{Gut:} Eben verlegte Steine, enge Fugen, geschlossene, flache Oberfläche.
+        \item \textbf{Mittel:} Leichte Setzungen im Untergrund, Fugen sind deutlich beim Fahren spürbar.
+        \item \textbf{Schlecht:} Starke Fugen, hochstehende Kanten oder fehlende Steine.
+    \end{itemize}
+    
+    \item \textbf{Pflastersteine}
+    \begin{itemize}
+        \item \textbf{Gut:} Gerades historisches Pflaster, relativ flach, erzeugt ein konstantes Vibrationsmuster.
+        \item \textbf{Mittel:} Kopfsteinpflaster mit intakten Fugen. Erzeugt durchgehend starke Vibrationen.
+        \item \textbf{Schlecht:} Sehr grobes, unregelmäßiges Pflaster mit tiefen Fugen, lockeren Steinen oder tiefen Kuhlen. Erzeugt extreme Erschütterungen.
+    \end{itemize}
+    
+    \item \textbf{Feldweg}
+    \begin{itemize}
+        \item \textbf{Gut:} Festgefahrener, trockener Erdboden oder sehr feiner, verdichteter Schotter.
+        \item \textbf{Mittel:} Loser Schotter, leichte Unebenheiten, Waschbrettmuster, flache Pfützen oder Spurrillen.
+        \item \textbf{Schlecht:} Grobe Steine, tiefe Matschlöcher, Wege in oder am Rand von Wäldern.
+    \end{itemize}
+    \item \textbf{Stillstand} (Wenn Geschwindigkeit zu niedrig für erkennbare Datenmuster ist.)
+\end{itemize}
