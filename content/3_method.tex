@@ -1,6 +1,7 @@
 \chapter{Methodik}\label{ch:method}
 
 \section{Theoretischer Hintergrund}
+\subsection{Metriken im Machine Learning}
 Um die Güte eines trainierten ML-Modells zu bestimmen, stehen mehrere Kriterien zur Verfügung: Genauigkeit (Accuracy), Rate richtig positiver Ergebnisse (Recall), Rate falsch positiver Ergebnisse (FPR), Präzision (Precision) und der F1-Wert. Der Machine Learning Kurs von Google Developers gibt hierfür folgende Beschreibungen:
 
 \begin{equation}
@@ -38,6 +39,74 @@ In Formel \ref{eq:precision} wird Anteil aller positiven Vorhersagen dargestellt
 \end{equation}
 
 Die Formel \ref{eq:f1} bildet den harmonischen Mittelwert von Precision und Recall ab. Er ist besonders für Datensets mit ungleichmäßiger Verteilung der Klassen geeignet. Liegen Precision und Recall nahe bei einander, ist der F1-Wert ihnen ähnlich. Gehen sie weit auseinander, liegt der F1-Wert näher am Schlechteren. Das macht ihn zu einem guten Prüfwert für bestimmte Datensätze. \cite{GoogleML2026}
+
+\subsection{International Roughness Index}
+Die Bewertung von Oberflächenqualität in dieser Arbeit wird vom International Roughness Index (IRI) abgeleitet. Grundlage hierfür ist das 1995 von Sayers begründete mathematische Quarter-Car-Modell, welches die vertikale Reaktion eines Autos auf das Straßenprofil simuliert. Das Quarter-Car-Modell reduziert das Auto dabei auf ein einziges Rad sowie alle relevanten dynamischen Elemente: Federdämpfung, Reifenfederrate, Fahrwerksfeder, gefederte Masse und ungefederte Masse. Der IRI nach Sayers ist dabei die Akkumulation der simulierten Bewegungen zwischen gefederter und ungefederter Masse, die über eine Länge L normalisiert wird. \cite{Sayers1995}
+\begin{equation}
+    IRI = \frac{1}{L} \int_{0}^{\frac{L}{V}} \left| \dot{z}_s - \dot{z}_u \right| dt
+    \label{eq:iri_sayers}
+\end{equation}
+
+Hierbei ist $L$ die Länge des gemessenen Straßenprofils, $V$ die konstante Simulationsgeschwindigkeit (von Sayers als 80 km/h standatisiert), $\dot{z}_s$ die vertikale Geschwindigkeit der gefederten Masse (Sprung Mass) und $\dot{z}_u$ die vertikale Geschwindigkeit der ungefederten Masse (Unsprung Mass). \cite{Sayers1995}
+
+Da diese Methode auf Autos ausgelegt ist und eine optimale Geschwindigkeit von 80 km/h unerreichbar ist, verwendet diese Arbeit stattdessen den Forschungsansatz von Massow et al. Dieser ist auf Fahrräder ausgelegt udn erfasst die direkte Reaktion des Fahrrads auf Unebenheit, und überträgt diese in einen abgeleiteten, auf die Fahrgeschwindigkeit ausgelegten IRI-Wert. \cite{Massow2024}
+\begin{equation}
+    IRI_{RMS+V} = \frac{n \cdot a_{z, \text{RMS}}}{\sum_{i=1}^{n} v_i} \cdot 100
+    \label{eq:iri_massow}
+\end{equation}
+
+Hierbei ist $n$ die Anzahl der Messungen im Auswertungsfenster, $v_i$ die am jeweiligen Messpunkt $i$ aufgezeichnete Geschwindigkeit und $a_{z, \text{RMS}}$ der Effektivwert der vertikalen Beschleunigung. \cite{Massow2024}
+\begin{equation}
+    a_{z, \text{RMS}} = \sqrt{\frac{1}{N} \sum_{i=1}^{N} a_{z,i}^2}
+    \label{eq:az_massow}
+\end{equation}
+
+Der Effektivwert ergibt sich aus Formel \ref{eq:az_massow}. Hier ist $N$ die Anzahl der gemessenen linearen Beschleunigungswerte im Auswertungsfenster und $a_z,i$ der $i$-te Messpunkt der vertikalen Beschleunigung.
+\begin{equation}
+    a_{\text{car}} = (1 - 0{,}88) \cdot a_{\text{bike}} = 0{,}12 \cdot a_{\text{bike}}
+    \label{eq:mod_massow}
+\end{equation}
+
+Um die Beschleunigungswerte für ihre IRI-Berechnung nutzbar zu machen, nehmen Massow et al. die in Gleichung \ref{eq:mod_massow} gezeigte Modifikation vor. Es wird erwähnt, dass ein Auto durch sein Aufhängungsystem auftretende Vibrationen um 88\% verringern kann. Daher multiplizieren die Forschenden um Massow ihre gemessenen Beschleunigungswerte um den Kehrwert von 0,12. \cite{Massow2024}
+
+Diese Herangehensweise erweist sich in dieser Arbeit als nicht ausreichend, weswegen der Modifikator weiter angepasst und verringert werden muss. Für diese Arbeit wird für den berechneten IRI schließlich folgende vereinfachte Formel verwendet:
+\begin{equation}
+    IRI_{RMS+V} = \frac{\sqrt{\frac{1}{N} \sum_{i=1}^{N} (k \cdot  a_{z,i})^2}}{v} \cdot 100
+    \label{eq:iri_simple}
+\end{equation} 
+
+Hierbei ist $k$ der Modifikator für die Beschleunigungswerte, $a_{z,i}$ die vertikalen linearen Beschleunigungswerte im Auswertungsfenster zum Zeitupunkt $i$ und $v$ die mittlere Fahrgeschwindigkeit im Auswertungsfenster. Zur Auswertung des IRI wird das von Massow et al. verwendete Auswertungsspektrum verwendet: \cite{Massow2024}
+
+\begin{itemize}
+    \item \textbf{Excellent:} $\text{IRI} < 2$
+    \item \textbf{Good:} $2 \le \text{IRI} < 4$
+    \item \textbf{Fair:} $4 \le \text{IRI} < 7$
+    \item \textbf{Poor:} $7 \le \text{IRI} < 10$
+    \item \textbf{Bad:} $10 \le \text{IRI} < 18$
+    \item \textbf{Failed:} $\text{IRI} \ge 18$
+\end{itemize}
+
+Hierbei muss erwähnt werden, dass die Kategorisierung selbst festgelegt ist. Andere Benutzer des IRI wie z.B. die World Bank geben als Beispiel für eine Einteilung u.a. folgende:
+
+\begin{itemize}
+  \item Very Good: $IRI < 2.5 \,\text{m/km}$
+  \item Good: $2.5 \leq IRI < 3.5 \,\text{m/km}$
+  \item Fair: $3.5 \leq IRI < 6.0 \,\text{m/km}$
+  \item Poor: $6.0 \leq IRI < 10.0 \,\text{m/km}$
+  \item Very Poor: $IRI \geq 10.0 \,\text{m/km}$
+\end{itemize}
+
+Der Autor Archondo-Callao geht auch darauf ein, dass man nur vorsichtig pauschale Klassen wie good, fair etc. verwenden sollte. Bei der Roughness handelt es sich um nur einen Indikator für Straßenqualität, der andere Zustände übersehen kann. Aus sei eine einheitliche Klassengrenze über verschiedene Straßentypen hinweg sinnvoll, solange sie neutral benannt sind. So könne man unterschiedliche Straßentypen besser vergleichen, ohne inherent zu werten. \cite{Archondo2008}
+
+Aus diesem Grund verwendet dieses Paper zwar die Klassengrenzen von Massow et al. wird aber das Namensschema neutraler gestalten:
+\begin{itemize}
+    \item \textbf{A:} $\text{IRI} < 2$
+    \item \textbf{B:} $2 \le \text{IRI} < 4$
+    \item \textbf{C:} $4 \le \text{IRI} < 7$
+    \item \textbf{D:} $7 \le \text{IRI} < 10$
+    \item \textbf{E:} $10 \le \text{IRI} < 18$
+    \item \textbf{F:} $\text{IRI} \ge 18$
+\end{itemize}
 
 \section{Aufbau des Experiments}
 Die Messreihen werden mit einem Citybike der Marke Pegasus Solero SL 7 aufgenommen. Das Fahrrad hat eine Rahmengröße von 280 mm und eine Reifengröße von 28 Zoll. Es wiegt ca. 18 kg. Mit dem Gewicht des Fahrers kommt man aufsummiert auf ca. 100 kg. Ein Smartphone der Marke Samsung Galaxy S23 kommt als Aufnahmegerät zum Einsatz. Es ist mit einer LSM6DSO Inertial Measurement Unit (LMU) ausgestattet, das Messung von Beschleunigung (Accelerometer) und Neigung (Gyroskop) in je 3 Achsen ermöglicht. \cite{STMicroelectronics2023}
