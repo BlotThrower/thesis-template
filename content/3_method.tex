@@ -98,7 +98,7 @@ Hierbei muss erwähnt werden, dass die Kategorisierung selbst festgelegt ist. An
 
 Der Autor Archondo-Callao geht auch darauf ein, dass man nur vorsichtig pauschale Klassen wie good, fair etc. verwenden sollte. Bei der Roughness handelt es sich um nur einen Indikator für Straßenqualität, der andere Zustände übersehen kann. Aus sei eine einheitliche Klassengrenze über verschiedene Straßentypen hinweg sinnvoll, solange sie neutral benannt sind. So könne man unterschiedliche Straßentypen besser vergleichen, ohne inherent zu werten. \cite{Archondo2008}
 
-Aus diesem Grund verwendet dieses Paper zwar die Klassengrenzen von Massow et al. wird aber das Namensschema neutraler gestalten:
+Aus diesem Grund werden in dieser Arbeit zwar die Klassengrenzen von Massow et al. verwendet, das Namensschema wird aber neutraler gestaltet:
 \begin{itemize}
     \item \textbf{A:} $\text{IRI} < 2$
     \item \textbf{B:} $2 \le \text{IRI} < 4$
@@ -258,7 +258,7 @@ def calculate_vertical_acceleration(acc_signals, gravity_signals):
     return a_v.reshape(-1, 1)
 \end{lstlisting}
 
-Die in Listing \ref{lst:vertical_acc} gezeigte Funktion nutzt die von während der Fahrt aufgenommenen Gravitationsdaten. In Schritt 1 wird die Länge des Gravitationsvektors pro Zeitschritt errechnet. In Schritt 2 wird eine Division durch 0 verhindert. Schritt 3: Ein Numpy-Array an Gravitationsvektoren wird errechnet. Schritt 4 besteht aus einem Skalarprodukt der Accelerometerdaten mit ihren korrespondierenden Gravitationsvektoren ($a_x$ mit $g_x$, $a_y$ mit $g_y$, $a_z$ mit $g_z$). Diese werden aufsummiert, um ein eindimensionales Array mit vertikalen Beschleunigungen zu erhalten.
+Die in der Liste \ref{lst:vertical_acc} gezeigte Funktion nutzt die von während der Fahrt aufgenommenen Gravitationsdaten. In Schritt 1 wird die Länge des Gravitationsvektors pro Zeitschritt errechnet. In Schritt 2 wird eine Division durch 0 verhindert. Schritt 3: Ein Numpy-Array an Gravitationsvektoren wird errechnet. Schritt 4 besteht aus einem Skalarprodukt der Accelerometerdaten mit ihren korrespondierenden Gravitationsvektoren ($a_x$ mit $g_x$, $a_y$ mit $g_y$, $a_z$ mit $g_z$). Diese werden aufsummiert, um ein eindimensionales Array mit vertikalen Beschleunigungen zu erhalten.
 
 Durch diese Projektion werden alle Störfaktoren wie Bremsen oder Lenken eliminiert. Nur die vertikalen Erschütterungen des Fahrrads bleiben übrig.
 
