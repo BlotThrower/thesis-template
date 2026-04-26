@@ -61,7 +61,7 @@ Doch um zu ermittlen, ob eine gewählte Modellarchitektur auch für die Zwecke d
 
 
 \subsection{International Roughness Index}
-Die Bewertung von Oberflächenqualität in dieser Arbeit wird vom International Roughness Index (IRI) abgeleitet. Grundlage hierfür ist das 1995 von Sayers begründete mathematische Quarter-Car-Modell, welches die vertikale Reaktion eines Autos auf das Straßenprofil simuliert. Das Quarter-Car-Modell reduziert das Auto dabei auf ein einziges Rad sowie alle relevanten dynamischen Elemente: Federdämpfung, Reifenfederrate, Fahrwerksfeder, gefederte Masse und ungefederte Masse. Der IRI nach Sayers ist dabei die Akkumulation der simulierten Bewegungen zwischen gefederter und ungefederter Masse, die über eine Länge L normalisiert wird. \cite{Sayers1995}
+Die Bewertung von Oberflächenqualität in dieser Arbeit wird vom International Roughness Index (IRI) abgeleitet. Grundlage hierfür ist das mathematische Quarter-Car-Modell, welches die vertikale Reaktion eines Autoreifens und seiner direkten Fahrzeugkomponenten auf das Straßenprofil simuliert. Das Quarter-Car-Modell reduziert das Auto dabei auf ein einziges Rad sowie alle relevanten dynamischen Elemente: Federdämpfung, Reifenfederrate, Fahrwerksfeder, gefederte Masse und ungefederte Masse. Der IRI nach Sayers ist dabei die Akkumulation der simulierten Bewegungen zwischen gefederter und ungefederter Masse, die über eine Länge L normalisiert wird. \cite{Sayers1995}
 \begin{equation}
     IRI = \frac{1}{L} \int_{0}^{\frac{L}{V}} \left| \dot{z}_s - \dot{z}_u \right| dt
     \label{eq:iri_sayers}
@@ -106,7 +106,7 @@ Hierbei ist $k$ der Modifikator für die Beschleunigungswerte, $a_{z,i}$ die ver
     \item \textbf{Failed:} $\text{IRI} \ge 18$
 \end{itemize}
 
-Hierbei muss erwähnt werden, dass die Kategorisierung selbst festgelegt ist. Andere Benutzer des IRI wie z.B. die World Bank geben als Beispiel für eine Einteilung u.a. folgende:
+Hierbei muss erwähnt werden, dass die Kategorisierung selbst festgelegt ist. Andere Benutzer des IRI wie z.B. die World Bank geben als Beispiel für eine Einteilung u.a. folgende (m/km bezeichnet die gesamte vertikale Bewegung des Stoßdämpfers in Metern während eines gemessenen Kilometers):
 
 \begin{itemize}
   \item Very Good: $IRI < 2.5 \,\text{m/km}$
