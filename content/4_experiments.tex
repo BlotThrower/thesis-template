@@ -104,7 +104,6 @@ In Tabelle \ref{tab:cnnlstm_results} sind die Ergebnisse des Trainings der fünf
 
 Wie zu sehen ist, erreicht das Modell einen Weighted Average von ca. 93 \% bei Precision, Recall und F1. Darüber hinaus ist die Gesamt-Accuracy der fünf Folds ebenfalls bei 93,1 \%. Der einzige Wert der heraussticht, ist die unzulängliche Precision bei der Klasse Stillstand. Diese Klasse ist jedoch so wenig vertreten, dass es den Weighted Average nicht beeinträchtigt. Es handelt sich hierbei wahrscheinlich um ein Problem mit dem Fine-Tuning der Data-Loader-Funktion, die angepasst werden muss, wenn es weiterhin zu Problemen kommt. Sonst sind die Ergebnisse insgesamt zufriedenstellend. Die Klasse Feldweg erreicht Werte von 84,2 \% in Precision und 80,2 \% in Recall, obwohl sie nur 16,2 \% aller verfügbaren Daten ausmacht. Diese Diskrepanz sollte sich mit zusätzlichen Trainingsdaten ausgeglichen lassen.
 
-Die folgende Globale Confusion Matrix visualisiert die Klassifikationsverteilung deutlicher:
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.8\textwidth]{figures/Confusion_Matrix_CNNLSTM.png}
@@ -112,7 +111,55 @@ Die folgende Globale Confusion Matrix visualisiert die Klassifikationsverteilung
     \label{fig:GCM_CNNLSTM}
 \end{figure}
 
-Wie in Abbildung \ref{fig:GCM_CNNLSTM} zu sehen ist, finden die meisten fehlerhaften Klassifikationen zwischen den Klassen Kopfsteinpflaster und Feldweg statt.
+In Abbildung \ref{fig:GCM_CNNLSTM} ist die Globale Confusion Matrix des CNN-LSTM dargestellt. Wie zu sehen ist, finden die meisten fehlerhaften Klassifikationen zwischen den Klassen Kopfsteinpflaster und Feldweg statt.
 
+\section{Diskussion}
 Im Laufe der Untersuchungen haben sich Smartphonesensoren als Basis der Messreihen zur Klassifizierung von Bodenbelägen, sowie das gewählte Setup als vielversprechend und ausbaufähig erwiesen. Es wird jedoch noch weitere Arbeit und fortwährende Anpassungen sowohl im gewählten ML-Modell als auch in im Aufnahme-Setup notwendig sein.
 
+Das CNN-LSTM Modell hat sich außerdem als sehr anpassbar erwiesen. Es wurden einige Datenreihen mit einem öffentlichen Stadt-Fahrrad der VAG aufgenommen, welches sowohl ein deutlich anderes Fahrverhalten und Gewicht als auch eine andere Smartphonehalterung aufweist. Diese besteht aus einer simplen Metallklemme, die direkt am Lenker angebracht ist und so keine sekundären Bewegungen wie der Arm der für diese Tests üblich verwendeten Halterung zulässt. Dazu ist der Anbringungswinkel unveränderlich und um einiges vertikaler als der üblich angepeilte 45° Winkel. In den nachfolgenden Frequenzspektren werden die unterschiedlichen Accelerometer-Signalprofile der beiden Räder miteinander verglichen. Für beide Räder wurde das gleiche Smartphone verwendet.
+
+Eine Erkentniss, die aus dem Vergleich der Abbildungen von \ref{fig:suro_gesamt} und \ref{fig:nbg_gesamt} erlangt werden kann ist, dass die Handyhalterungen eine Eigenschwingung in unterschiedlichen Frequenzbereichen haben. Abbildung \ref{fig:nbg_y} zeigt deutliche Ausschläge im Bereich von ca. 25 Hz bis ca. 32 Hz. In den Abbildungen \ref{fig:nbg_y} und \ref{fig:nbg_z} zeigen sich hingegen ähnliche Ausschläge im Bereich von 20 Hz bis 23 Hz. Diese haben auch deutlich weniger Intensität, obwohl das Stadtrad der VAG um einiges weniger gefedert ist als das private Citybike des Testers. Auch ist zu erkennen, dass sich der Ausschlag in beiden Abbildungen der Nürberger Gruppe zeigt, während sich die Eigenfrequenz des Citybikes nur in Abbildung \ref{fig:suro_y} zeigt. Zugleich zeigen sich prägnante Ausschläge in beiden Versuchs-Setups mit ähnlichen Mustern in niedrigeren Frequenzbereichen. Im Bereich von 10 Hz bis 20 Hz sind Ausschläge zu sehen, die mit der Rauheit des Bodens in Stärke zunehmen. Diskrepanzen in den Verläufen sind wahrscheinlich auf die verschiedenen physikalischen Eigenheiten der Fahrräder zurückzuführen, aber der Umstand, dass sich die Frequenzbereiche bei beiden Fahrrädern in ihrem Verhalten decken, und dass diese sich in einem niedrigeren Bereich befinden als die sekundären Ausschläge in höheren Bereichen lässt darauf schließen, dass es sich hierbei um die vom Boden verursachten Bewegungen handelt.
+
+Unterschiede in der Sichtbarkeit der Eigenschwingungen der Halterungen in den verschiedenen Accelerometer-Achsen sowie die Unterschiede in der Stärke der Ausschläge lassen sich vermutlich auf den unterschiedlichen Anbringungswinkel sowie auf das unterschiedliche Schwingverhalten durch den anpassbaren Arm der privaten Halterung in Abbildungen \ref{fig:suro_gesamt} zurückführen. Dieser lässt andere Bewegungsachsen und höhre Vibrationsfrequenzen zu. Empirisch trat dies bei den Aufnahmen während der Fahrt auch durch deutlich sichtbare Schwingungen zu Tage. Sollte es durch diese Umstände zu Problemen mit zukünftigen Messreihen kommen, werden vermutlich weitere Untersuchungen und Anpassungen notwendig werden. Es besteht jedoch Grund zur Annahme, dass dies nicht der Fall sein wird.
+
+
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.9\textwidth}
+        \includegraphics[width=\textwidth]{figures/PSD_Y_SuRo.png}
+        \caption{PSD der y-Achse}
+        \label{fig:suro_y}
+    \end{subfigure}
+    
+    \vspace{0.35cm}
+    
+    \begin{subfigure}[b]{0.9\textwidth}
+        \includegraphics[width=\textwidth]{figures/PSD_Z_SuRo.png}
+        \caption{PSD der z-Achse}
+        \label{fig:suro_z}
+    \end{subfigure}
+    
+    \caption{Frequenzspektren (PSD) für Sulzbach-Rosenberg.}
+    \label{fig:suro_gesamt}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \begin{subfigure}[b]{0.9\textwidth}
+        \includegraphics[width=\textwidth]{figures/PSD_Y_NBG.png}
+        \caption{PSD der y-Achse}
+        \label{fig:nbg_y}
+    \end{subfigure}
+    
+    \vspace{0.35cm}
+    
+    \begin{subfigure}[b]{0.9\textwidth}
+        \includegraphics[width=\textwidth]{figures/PSD_Z_NBG.png}
+        \caption{PSD der z-Achse}
+        \label{fig:nbg_z}
+    \end{subfigure}
+    
+    \caption{Frequenzspektren (PSD) für Nürnberg.}
+    \label{fig:nbg_gesamt}
+\end{figure}
