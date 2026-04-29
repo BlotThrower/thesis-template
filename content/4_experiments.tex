@@ -7,12 +7,12 @@ Die verwendeten Modelle wurden mit folgenden Daten trainiert:
         \hline
         \textbf{Klasse (Label)} & \textbf{Anzahl Fenster} & \textbf{Dauer (Min.)} & \textbf{Dauer (Sek.)} \\
         \hline
-        -1 Stillstand & 86 & 1.4 & 86.0 \\
-        0 Asphalt / Verbund & 2940 & 49.0 & 2940.0 \\
-        1 Kopfsteinpflaster & 2247 & 37.5 & 2247.0 \\
-        2 Feldweg & 1021 & 17.0 & 1021.0 \\
+        -1 Stillstand & 92 & 1.5 & 92.0 \\
+        0 Asphalt / Verbund & 2928 & 48.8 & 2928.0 \\
+        1 Kopfsteinpflaster & 2243 & 37.4 & 2243.0 \\
+        2 Feldweg & 1017 & 16.9 & 1017.0 \\
         \hline
-        \textbf{Gesamt} & \textbf{6294} & \textbf{104.9} & \textbf{6294.0} \\
+        \textbf{Gesamt} & \textbf{6280} & \textbf{104.7} & \textbf{6280.0} \\
         \hline
     \end{tabular}
     \caption{Verteilung der gesammelten Datenfenster bei einer Aufnahmefrequenz von 150 Hz}
@@ -46,7 +46,6 @@ class CNNLSTMClassifier(nn.Module):
             num_layers=2, dropout=0.3, batch_first=True)
 
         # Classification Head
-        self.fc_combined = nn.Linear(128, 128)
         self.dropout = nn.Dropout(0.5)
         self.out = nn.Linear(128, output_dim)
 
@@ -67,14 +66,49 @@ class CNNLSTMClassifier(nn.Module):
         # Global Average Pooling across time dimension
         # Shape: (Batch, 128)
         ts_features = torch.mean(lstm_out, dim=1)
-
-        # Apply Dense Layers
-        x = F.relu(self.fc_combined(ts_features))
-        x = self.dropout(x)
+        x = self.dropout(ts_features)
         return self.out(x)
 \end{lstlisting}
 
-Das in \ref{lst:cnnlstm} abgebildete CNN-LSTM-Hybridmodell besteht aus einem CNN mit zwei eindimensionalen Faltungsschichten. Diese Schichten bilden die eingehenden Datenkanäle erst auf 32 und dann auf 64 Feature-Maps. Danach folgt eine Batch-Normalisierung zur Stabilisierung des Trainingsprozesses und die ReLU-Aktivierungsfunktion. Es folgt eine Max-Pooling-Funktion mit Größe $2$. Diese dient zur Feature-Verdichtung und Maxima-Bestimmung, wodurch wichtigere Features deutlicher hervortreten \cite{Chollet2025}. Die zweite Faltungsschicht wiederholt den Prozess und erweitert die Feature-Maps auf 64 Kanäle.
+Das in \ref{lst:cnnlstm} abgebildete finale CNN-LSTM-Hybridmodell besteht aus einem CNN mit zwei eindimensionalen Faltungsschichten. Diese Schichten bilden die eingehenden Datenkanäle erst auf 32 und dann auf 64 Feature-Maps. Danach folgt eine Batch-Normalisierung zur Stabilisierung des Trainingsprozesses und die ReLU-Aktivierungsfunktion. Es folgt eine Max-Pooling-Funktion mit Größe $2$. Diese dient zur Feature-Verdichtung und Maxima-Bestimmung, wodurch wichtigere Features deutlicher hervortreten \cite{Chollet2025}. Die zweite Faltungsschicht wiederholt den Prozess und erweitert die Feature-Maps auf 64 Kanäle.
+
+Anstatt der üblichen Global Pooling Schicht hat das Modell ein zweischichtiges LSTM, um zeitliche Zusammenhänge in den Daten zu lernen. Die verborgene Dimension ist auf 128 Neuronen festgelegt. Um Overfitting zwischen den beiden LSTM-Schichten zu minimieren, wird ein Dropout von 30 \%  verwendet. Diese Technik setzt eine zufällig ausgewählte Anzahl an Features während des Trainings auf 0, um zufällige, nicht-signifikante erlernte Muster aufzubrechen und so Generalisierung zu verbessern und Overfitting zu vermeiden. Chollet empfielt für RNNs eine Funktion namens Recurrent Dropout \cite{Chollet2025}. Diese ist in der PyTorch Bibliothek jedoch nicht verfügbar. Mit einem Global Average Pooling Layer wird der Mittelwert über alle übrigen Zeitschritte berechnet. 
+
+Zum Schluss wird noch eine Dropout-Rate von 50 \% auf das gesamte Modell angewendet. Danach reduziert die Ausgabeschicht die Features auf die Anzahl der Straßenklassen.
+
+Das Modell wird nach Ermittlung der optimalen Trainingsdauer auf allen Daten mit 90 Epochen trainiert. K-Fold Crossvalidation mit 5 Folds wird verwendet, um dem Ungleichgewicht in den vorhandenen Klassengattungen der Daten entgegenzuwirken. Zusätzlich werden die Datenreihen in Teilabschnitte von ca. 30 Sekunden eingeteilt, um die unterschiedlichen Längen der Datenreihen auszugleichen. 
+
+\begin{table}[hbt!]
+    \centering
+    \begin{tabular}{lrrrr}
+        \hline
+        \textbf{Klasse (Label)} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
+        \hline
+        -1 Stillstand & 0.74 & 1.00 & 0.85 & 92 \\
+        0 Asphalt / Verbund & 0.96 & 0.96 & 0.96 & 2928 \\
+        1 Kopfsteinpflaster & 0.94 & 0.94 & 0.94 & 2243 \\
+        2 Feldweg & 0.84 & 0.80 & 0.82 & 1017 \\
+        \hline
+        \textbf{Accuracy} & \multicolumn{2}{c}{} & \textbf{0.93} & 6280 \\
+        \textbf{Macro Avg} & 0.87 & 0.93 & 0.89 & 6280 \\
+        \textbf{Weighted Avg} & 0.93 & 0.93 & 0.93 & 6280 \\
+        \hline
+    \end{tabular}
+    \caption{Klassifikationsergebnisse des CNN-LSTM Modells}
+    \label{tab:cnnlstm_results}
+\end{table}
+
+In Tabelle \ref{tab:cnnlstm_results} sind die Ergebnisse des Trainings der fünf Durchläufe zu sehen. Der Classification Report der sklearn Library wird herfür verwendet. Die 6280 Klassifizierungen decken sich mit den Input-Fenstern; jedes verfügbare Fenster wurde ein Mal klassifiziert. Hierbei handelt es sich nicht um den Durchschnitt der fünf Folds, sondern um alle gepoolten Vorhersagen der fünf Test-Sets. Macro Average bezeichnet hierbei den Wert, der den Durchschnitt der resultierenden Werte der oberen Spalte berechnet und somit alle Klassen als gleichgewichtet betrachtet. Hier treten Schwächen in weniger häufig auftretenden Klassen besonders hervor \cite{SklearnClassificationReport2026}. Dagegen berücksichtigt der Weighted Average die vorhandenen Samples der Klassen und gewichtet die Zahlen folglich als mehr oder weniger wichtig \cite{SklearnClassificationReport2026}. 
+
+Wie zu sehen ist, erreicht das Modell einen Weighted Average von 93 \% bei Precision, Recall und F1. Darüber hinaus ist die Gesamt-Accuracy der fünf Folds ebenfalls bei 93 \%. Der einzige Wert der heraussticht, ist die unzulängliche Precision bei der Klasse Stillstand. Diese Klasse ist jedoch so wenig vertreten, dass es den Weighted Average nicht beeinträchtigt. Es handelt sich hierbei wahrscheinlich um ein Problem mit dem Fine-Tuning der Data-Loader-Funktion, die angepasst werden muss, wenn es weiterhin zu Problemen kommt. Sonst sind die Ergebnisse insgesamt zufriedenstellend. Die Klasse Feldweg erreicht Werte von 84 \% in Precision und 80 \% in Recall, obwohl sie nur 16,2 \% aller verfügbaren Daten ausmacht. Diese Diskrepanz sollte sich mit zusätzlichen Trainingsdaten ausgeglichen lassen.
+
+Die folgende Globale Confusion Matrix visualisiert die Klassifikationsverteilung deutlicher:
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/Confusion_Matrix_CNNLSTM.png}
+    \caption{Globale Confusion Matrix CNN-LSTM}
+    \label{fig:GCM_CNNLSTM}
+\end{figure}
 
 Im Laufe der Untersuchungen haben sich Smartphonesensoren als Basis der Messreihen zur Klassifizierung von Bodenbelägen, sowie das gewählte Setup als vielversprechend und ausbaufähig erwiesen. Es wird jedoch noch weitere Arbeit und fortwährende Anpassungen sowohl im gewählten ML-Modell als auch in im Aufnahme-Setup notwendig sein.
 

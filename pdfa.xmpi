@@ -62,9 +62,9 @@
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:dc="http://purl.org/dc/elements/1.1/"> 
    <dc:format>application/pdf</dc:format> 
-   <dc:title><rdf:Alt><rdf:li xml:lang="x-default">My title.</rdf:li></rdf:Alt></dc:title>
+   <dc:title><rdf:Alt><rdf:li xml:lang="x-default">Verbessertes Routing für Fahrradfahrer – Klassifizierung von Smartphone-Sensordaten zur Erkennung von Bodenbelag und -qualität </rdf:li></rdf:Alt></dc:title>
    <dc:creator><rdf:Seq><rdf:li>Christian Gügel</rdf:li></rdf:Seq></dc:creator>
-   <dc:description><rdf:Alt><rdf:li xml:lang="x-default">My title.</rdf:li></rdf:Alt></dc:description>
+   <dc:description><rdf:Alt><rdf:li xml:lang="x-default">Verbessertes Routing für Fahrradfahrer – Klassifizierung von Smartphone-Sensordaten zur Erkennung von Bodenbelag und -qualität </rdf:li></rdf:Alt></dc:description>
    <dc:subject><rdf:Bag><rdf:li>hot, fuzz</rdf:li></rdf:Bag></dc:subject>
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:prism="http://prismstandard.org/namespaces/basic/2.2/"> 
@@ -77,15 +77,15 @@
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:xmp="http://ns.adobe.com/xap/1.0/"> 
    <xmp:CreatorTool>Christian Gügel</xmp:CreatorTool> 
-   <xmp:ModifyDate>2026-04-28T23:42:36+02:00</xmp:ModifyDate> 
-   <xmp:CreateDate>2026-04-28T23:42:36+02:00</xmp:CreateDate> 
-   <xmp:MetadataDate>2026-04-28T23:42:36+02:00</xmp:MetadataDate> 
+   <xmp:ModifyDate>2026-04-29T14:27:47+02:00</xmp:ModifyDate> 
+   <xmp:CreateDate>2026-04-29T14:27:47+02:00</xmp:CreateDate> 
+   <xmp:MetadataDate>2026-04-29T14:27:47+02:00</xmp:MetadataDate> 
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:xmpRights = "http://ns.adobe.com/xap/1.0/rights/"> 
   </rdf:Description> 
   <rdf:Description rdf:about="" xmlns:xmpMM="http://ns.adobe.com/xap/1.0/mm/"> 
    <xmpMM:DocumentID>uuid:C8CFC28F-88E1-7995-E9AD-F6D12EAD346B</xmpMM:DocumentID> 
-   <xmpMM:InstanceID>uuid:A6DF37D9-0944-E4B2-C90A-00332F730292</xmpMM:InstanceID> 
+   <xmpMM:InstanceID>uuid:FFF72D76-C9ED-D86B-6798-2B04C252C61E</xmpMM:InstanceID> 
   </rdf:Description> 
  </rdf:RDF> 
 </x:xmpmeta> 
