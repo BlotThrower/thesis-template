@@ -76,7 +76,9 @@ Anstatt der üblichen Global Pooling Schicht hat das Modell ein zweischichtiges 
 
 Zum Schluss wird noch eine Dropout-Rate von 50 \% auf das gesamte Modell angewendet. Danach reduziert die Ausgabeschicht die Features auf die Anzahl der Straßenklassen.
 
-Das Modell wird nach Ermittlung der optimalen Trainingsdauer auf allen Daten mit 90 Epochen trainiert. K-Fold Crossvalidation mit 5 Folds wird verwendet, um dem Ungleichgewicht in den vorhandenen Klassengattungen der Daten entgegenzuwirken. Zusätzlich werden die Datenreihen in Teilabschnitte von ca. 30 Sekunden eingeteilt, um die unterschiedlichen Längen der Datenreihen auszugleichen. 
+Das Modell wird nach Ermittlung der optimalen Trainingsdauer auf allen Daten mit 90 Epochen trainiert. K-Fold Crossvalidation mit 5 Folds wird verwendet, um dem Ungleichgewicht in den vorhandenen Klassengattungen der Daten entgegenzuwirken. Zusätzlich werden die Datenreihen in Teilabschnitte von ca. 30 Sekunden eingeteilt, um die unterschiedlichen Längen der Datenreihen auszugleichen. Um Overfitting entgegenzuwirken werden verschiedene Schritte zur Regularisierung vorgenommen: Die Batch Size betrug 64 Samples, die Learning Rate betrug 0,00005 und der Weight Decay betrug 0,00001.
+
+Eine weitere Hyperparameter-Kombination die zu ähnlichen Ergebnissen geführt hat war: Training für 120 Epochen, 5 Folds, Batch Size von 256, Learing Rate von 0,0001 und Weight Decay von 0,0002. Diese Parameter führen zu deutlich schnellerem Trainieren aufgrund der größeren Batch Size, aber zeigen eine leicht schlechtere Generalisierung auf. In den folgenden Darstellungen wird erstere Hyperparameter-Kombination verwendet.
 
 \begin{table}[hbt!]
     \centering
@@ -84,14 +86,14 @@ Das Modell wird nach Ermittlung der optimalen Trainingsdauer auf allen Daten mit
         \hline
         \textbf{Klasse (Label)} & \textbf{Precision} & \textbf{Recall} & \textbf{F1-Score} & \textbf{Support} \\
         \hline
-        -1 Stillstand & 0.74 & 1.00 & 0.85 & 92 \\
-        0 Asphalt / Verbund & 0.96 & 0.96 & 0.96 & 2928 \\
-        1 Kopfsteinpflaster & 0.94 & 0.94 & 0.94 & 2243 \\
-        2 Feldweg & 0.84 & 0.80 & 0.82 & 1017 \\
+        -1 Stillstand & 0.736 & 1.000 & 0.848 & 92 \\
+        0 Asphalt / Verbund & 0.963 & 0.965 & 0.964 & 2928 \\
+        1 Kopfsteinpflaster & 0.939 & 0.943 & 0.941 & 2243 \\
+        2 Feldweg & 0.842 & 0.802 & 0.822 & 1017 \\
         \hline
-        \textbf{Accuracy} & \multicolumn{2}{c}{} & \textbf{0.93} & 6280 \\
-        \textbf{Macro Avg} & 0.87 & 0.93 & 0.89 & 6280 \\
-        \textbf{Weighted Avg} & 0.93 & 0.93 & 0.93 & 6280 \\
+        \textbf{Accuracy} & \multicolumn{2}{c}{} & \textbf{0.931} & 6280 \\
+        \textbf{Macro Avg} & 0.870 & 0.928 & 0.894 & 6280 \\
+        \textbf{Weighted Avg} & 0.932 & 0.931 & 0.931 & 6280 \\
         \hline
     \end{tabular}
     \caption{Klassifikationsergebnisse des CNN-LSTM Modells}
@@ -100,7 +102,7 @@ Das Modell wird nach Ermittlung der optimalen Trainingsdauer auf allen Daten mit
 
 In Tabelle \ref{tab:cnnlstm_results} sind die Ergebnisse des Trainings der fünf Durchläufe zu sehen. Der Classification Report der sklearn Library wird herfür verwendet. Die 6280 Klassifizierungen decken sich mit den Input-Fenstern; jedes verfügbare Fenster wurde ein Mal klassifiziert. Hierbei handelt es sich nicht um den Durchschnitt der fünf Folds, sondern um alle gepoolten Vorhersagen der fünf Test-Sets. Macro Average bezeichnet hierbei den Wert, der den Durchschnitt der resultierenden Werte der oberen Spalte berechnet und somit alle Klassen als gleichgewichtet betrachtet. Hier treten Schwächen in weniger häufig auftretenden Klassen besonders hervor \cite{SklearnClassificationReport2026}. Dagegen berücksichtigt der Weighted Average die vorhandenen Samples der Klassen und gewichtet die Zahlen folglich als mehr oder weniger wichtig \cite{SklearnClassificationReport2026}. 
 
-Wie zu sehen ist, erreicht das Modell einen Weighted Average von 93 \% bei Precision, Recall und F1. Darüber hinaus ist die Gesamt-Accuracy der fünf Folds ebenfalls bei 93 \%. Der einzige Wert der heraussticht, ist die unzulängliche Precision bei der Klasse Stillstand. Diese Klasse ist jedoch so wenig vertreten, dass es den Weighted Average nicht beeinträchtigt. Es handelt sich hierbei wahrscheinlich um ein Problem mit dem Fine-Tuning der Data-Loader-Funktion, die angepasst werden muss, wenn es weiterhin zu Problemen kommt. Sonst sind die Ergebnisse insgesamt zufriedenstellend. Die Klasse Feldweg erreicht Werte von 84 \% in Precision und 80 \% in Recall, obwohl sie nur 16,2 \% aller verfügbaren Daten ausmacht. Diese Diskrepanz sollte sich mit zusätzlichen Trainingsdaten ausgeglichen lassen.
+Wie zu sehen ist, erreicht das Modell einen Weighted Average von ca. 93 \% bei Precision, Recall und F1. Darüber hinaus ist die Gesamt-Accuracy der fünf Folds ebenfalls bei 93,1 \%. Der einzige Wert der heraussticht, ist die unzulängliche Precision bei der Klasse Stillstand. Diese Klasse ist jedoch so wenig vertreten, dass es den Weighted Average nicht beeinträchtigt. Es handelt sich hierbei wahrscheinlich um ein Problem mit dem Fine-Tuning der Data-Loader-Funktion, die angepasst werden muss, wenn es weiterhin zu Problemen kommt. Sonst sind die Ergebnisse insgesamt zufriedenstellend. Die Klasse Feldweg erreicht Werte von 84,2 \% in Precision und 80,2 \% in Recall, obwohl sie nur 16,2 \% aller verfügbaren Daten ausmacht. Diese Diskrepanz sollte sich mit zusätzlichen Trainingsdaten ausgeglichen lassen.
 
 Die folgende Globale Confusion Matrix visualisiert die Klassifikationsverteilung deutlicher:
 \begin{figure}[htbp]
@@ -109,6 +111,8 @@ Die folgende Globale Confusion Matrix visualisiert die Klassifikationsverteilung
     \caption{Globale Confusion Matrix CNN-LSTM}
     \label{fig:GCM_CNNLSTM}
 \end{figure}
+
+Wie in Abbildung \ref{fig:GCM_CNNLSTM} zu sehen ist, finden die meisten fehlerhaften Klassifikationen zwischen den Klassen Kopfsteinpflaster und Feldweg statt.
 
 Im Laufe der Untersuchungen haben sich Smartphonesensoren als Basis der Messreihen zur Klassifizierung von Bodenbelägen, sowie das gewählte Setup als vielversprechend und ausbaufähig erwiesen. Es wird jedoch noch weitere Arbeit und fortwährende Anpassungen sowohl im gewählten ML-Modell als auch in im Aufnahme-Setup notwendig sein.
 
