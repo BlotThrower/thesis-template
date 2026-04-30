@@ -118,12 +118,6 @@ Im Laufe der Untersuchungen haben sich Smartphonesensoren als Basis der Messreih
 
 Das CNN-LSTM Modell hat sich außerdem als sehr anpassbar erwiesen. Es wurden einige Datenreihen mit einem öffentlichen Stadt-Fahrrad der VAG aufgenommen, welches sowohl ein deutlich anderes Fahrverhalten und Gewicht als auch eine andere Smartphonehalterung aufweist. Diese besteht aus einer simplen Metallklemme, die direkt am Lenker angebracht ist und so keine sekundären Bewegungen wie der Arm der für diese Tests üblich verwendeten Halterung zulässt. Dazu ist der Anbringungswinkel unveränderlich und um einiges vertikaler als der üblich angepeilte 45° Winkel. In den nachfolgenden Frequenzspektren werden die unterschiedlichen Accelerometer-Signalprofile der beiden Räder miteinander verglichen. Für beide Räder wurde das gleiche Smartphone verwendet.
 
-Eine Erkentniss, die aus dem Vergleich der Abbildungen von \ref{fig:suro_gesamt} und \ref{fig:nbg_gesamt} erlangt werden kann ist, dass die Handyhalterungen eine Eigenschwingung in unterschiedlichen Frequenzbereichen haben. Abbildung \ref{fig:nbg_y} zeigt deutliche Ausschläge im Bereich von ca. 25 Hz bis ca. 32 Hz. In den Abbildungen \ref{fig:nbg_y} und \ref{fig:nbg_z} zeigen sich hingegen ähnliche Ausschläge im Bereich von 20 Hz bis 23 Hz. Diese haben auch deutlich weniger Intensität, obwohl das Stadtrad der VAG um einiges weniger gefedert ist als das private Citybike des Testers. Auch ist zu erkennen, dass sich der Ausschlag in beiden Abbildungen der Nürberger Gruppe zeigt, während sich die Eigenfrequenz des Citybikes nur in Abbildung \ref{fig:suro_y} zeigt. Zugleich zeigen sich prägnante Ausschläge in beiden Versuchs-Setups mit ähnlichen Mustern in niedrigeren Frequenzbereichen. Im Bereich von 10 Hz bis 20 Hz sind Ausschläge zu sehen, die mit der Rauheit des Bodens in Stärke zunehmen. Diskrepanzen in den Verläufen sind wahrscheinlich auf die verschiedenen physikalischen Eigenheiten der Fahrräder zurückzuführen, aber der Umstand, dass sich die Frequenzbereiche bei beiden Fahrrädern in ihrem Verhalten decken, und dass diese sich in einem niedrigeren Bereich befinden als die sekundären Ausschläge in höheren Bereichen lässt darauf schließen, dass es sich hierbei um die vom Boden verursachten Bewegungen handelt.
-
-Unterschiede in der Sichtbarkeit der Eigenschwingungen der Halterungen in den verschiedenen Accelerometer-Achsen sowie die Unterschiede in der Stärke der Ausschläge lassen sich vermutlich auf den unterschiedlichen Anbringungswinkel sowie auf das unterschiedliche Schwingverhalten durch den anpassbaren Arm der privaten Halterung in Abbildungen \ref{fig:suro_gesamt} zurückführen. Dieser lässt andere Bewegungsachsen und höhre Vibrationsfrequenzen zu. Empirisch trat dies bei den Aufnahmen während der Fahrt auch durch deutlich sichtbare Schwingungen zu Tage. Sollte es durch diese Umstände zu Problemen mit zukünftigen Messreihen kommen, werden vermutlich weitere Untersuchungen und Anpassungen notwendig werden. Es besteht jedoch Grund zur Annahme, dass dies nicht der Fall sein wird.
-
-
-
 \begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.9\textwidth}
@@ -163,3 +157,60 @@ Unterschiede in der Sichtbarkeit der Eigenschwingungen der Halterungen in den ve
     \caption{Frequenzspektren (PSD) für Nürnberg.}
     \label{fig:nbg_gesamt}
 \end{figure}
+
+Eine Erkentniss, die aus dem Vergleich der Abbildungen von \ref{fig:suro_gesamt} und \ref{fig:nbg_gesamt} erlangt werden kann ist, dass die Handyhalterungen eine Eigenschwingung in unterschiedlichen Frequenzbereichen haben. Abbildung \ref{fig:nbg_y} zeigt deutliche Ausschläge im Bereich von ca. 25 Hz bis ca. 32 Hz. In den Abbildungen \ref{fig:nbg_y} und \ref{fig:nbg_z} zeigen sich hingegen ähnliche Ausschläge im Bereich von 20 Hz bis 23 Hz. Diese haben auch deutlich weniger Intensität, obwohl das Stadtrad der VAG um einiges weniger gefedert ist als das private Citybike des Testers. Auch ist zu erkennen, dass sich der Ausschlag in beiden Abbildungen der Nürberger Gruppe zeigt, während sich die Eigenfrequenz des Citybikes nur in Abbildung \ref{fig:suro_y} zeigt. Zugleich zeigen sich prägnante Ausschläge in beiden Versuchs-Setups mit ähnlichen Mustern in niedrigeren Frequenzbereichen. Im Bereich von 10 Hz bis 20 Hz sind Ausschläge zu sehen, die mit der Rauheit des Bodens in Stärke zunehmen. Diskrepanzen in den Verläufen sind wahrscheinlich auf die verschiedenen physikalischen Eigenheiten der Fahrräder zurückzuführen, aber der Umstand, dass sich die Frequenzbereiche bei beiden Fahrrädern in ihrem Verhalten decken, und dass diese sich in einem niedrigeren Bereich befinden als die sekundären Ausschläge in höheren Bereichen lässt darauf schließen, dass es sich hierbei um die vom Boden verursachten Bewegungen handelt.
+
+Unterschiede in der Sichtbarkeit der Eigenschwingungen der Halterungen in den verschiedenen Accelerometer-Achsen sowie die Unterschiede in der Stärke der Ausschläge lassen sich vermutlich auf den unterschiedlichen Anbringungswinkel sowie auf das unterschiedliche Schwingverhalten durch den anpassbaren Arm der privaten Halterung in Abbildungen \ref{fig:suro_gesamt} zurückführen. Dieser lässt andere Bewegungsachsen und höhre Vibrationsfrequenzen zu. Empirisch trat dies bei den Aufnahmen während der Fahrt auch durch deutlich sichtbare Schwingungen zu Tage. Sollte es durch diese Umstände zu Problemen mit zukünftigen Messreihen kommen, werden vermutlich weitere Untersuchungen und Anpassungen notwendig werden. Es besteht jedoch Grund zur Annahme, dass dies nicht der Fall sein wird.
+
+\begin{table}[hbt!]
+    \centering
+    \begin{tabular}{lrrr}
+        \hline
+        \textbf{Klasse (Label)} & \textbf{Anzahl Fenster} & \textbf{Dauer (Min.)} & \textbf{Dauer (Sek.)} \\
+        \hline
+        0 Asphalt / Verbund & 87 & 1.4 & 87.0 \\
+        1 Kopfsteinpflaster & 31 & 0.5 & 31.0 \\
+        2 Feldweg & 13 & 0.2 & 13.0 \\
+        \hline
+        \textbf{Gesamt} & \textbf{131} & \textbf{2.2} & \textbf{131.0} \\
+        \hline
+    \end{tabular}
+    \caption{Verteilung der gesammelten Datenfenster für den Datensatz Nürnberg}
+    \label{tab:label_distribution_nbg}
+\end{table}
+
+Wie in Tabelle \ref{tab:label_distribution_nbg} zu sehen ist, ist die Menge der gesammelten verwendbaren Trainingsdaten für das VAG-Rad im Vergleich zum hauptsächlichen Datenset klein. Diese neuen Trainingsdaten werden an die schon bestehenden Datenreihen angefügt und im normalen für das CNN-LSTM beschriebenen Trainingsprozess mit trainiert. Auch diese geringe Datenmenge bringt gute Qualitätsschübe für die Klassifikation von Fahrten mit dem VAG-Rad.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.45\textwidth]{figures/Legende.png}
+    \caption{Legende für klassifizierte Oberflächen und IRI-Werte}
+    \label{fig:Legend_Surface_IRI}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/Nbg_withouttrain.png}
+    \caption{Testfahrt über Nürnberger Hauptmarkt ohne Nürnberger Trainingsdaten}
+    \label{fig:Nbg_withouttrain}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/Nbg_withtrain.png}
+    \caption{Testfahrt über Nürnberger Hauptmarkt mit Nürnberger Trainingsdaten}
+    \label{fig:Nbg_withtrain}
+\end{figure}
+
+In den Abbildungen \ref{fig:Nbg_withouttrain} und \ref{fig:Nbg_withtrain} sind die Klassifikationen einer Teststrecke mit dem VAG-Rad über den Nürnberger Hauptmarkt zu sehen, bevor und nachdem die neuen Trainingsdaten hinzugefügt wurden. Beide wurden ohne Smoothing klassifiziert. In Abbildung \ref{fig:Legend_Surface_IRI} ist die Legende für die Klassifikationen auf beiden Abbildungen zu sehen. Es ist zu erkennen, dass sich das Modell ohne den Kontext der VAG-Rad-Testdaten schwertut, zwischen Pflastersteinen und Feldweg zu unterscheiden. Die Verteilung der Punkte zeigt ein fast zufälliges Raten auf. Doch mit dem zusätzlichen Kontext der Daten von sowohl Kopfsteinpflaster als auch Feldweg hat das Modell gelernt, auf die richtigen Merkmale zu achten und falsche Indikatoren zu ignorieren. Bis auf 5 Datenpunkte und dem Edge Case im Fahrverhalten in der Mitte der großen Pflasterstein-Strecke wurde die gesamte Strecke korrekt klassifiziert.
+
+Dieses Ergebnis ist ein Indiz, dass das CNN-LSTM Modell auch an andere Gegebenheiten schnell anpassbar ist, und zumindest mit dem gleichen Smartphone andere Anbringungswinkel, physikalische Bedingungen und Fahrverhalten schnell erfassen kann.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/Edgecase.png}
+    \caption{Beispiel für einen Edge Case}
+    \label{fig:Edge_Case}
+\end{figure}
+
+Ein weiteres Thema, das bei zukünftigem Training zu beachten ist, sind die oben erwähnten Edge Cases. In beiden Streckenklassifikationen ist im Streckenabschnitt über den Hauptmarkt ein Bereich zu sehen, der Asphalt klassifiziert wird. In diesem Bereich musste der Tester seine Fahrgeschwindigkeit stark reduzieren und Einlenken um einer Gruppe Passanten auszuweichen. Das Fahrverhalten passte zu keiner der üblichen Signalmuster, und durch die langsame Geschwindigkeit kamen die vertikalen Schübe durch die Pflaster auch in merkbar größerem Abstand und geringerem Ausschlag. Das Modell klassifiziert die Strecke deshalb als Asphalt. In Abbildung \ref{fig:Edge_Case} ist ein weiteres Beispiel zu sehen. Die Fahrt zeigt einen fehlerhaft als Feldweg klassifizierten Streckenabschnitt. Die gefahrene Linie weicht dazu von der Straße ab. Der Testfahrer musste hier auf den Bürgersteig lenken, um einem zu breiten Auto auszuweichen. Die IRI-Werte zeigen einen deutlichen punktuellen Anstieg, als das Fahrrad über die Bordsteinkante fährt. Danach geht die Fahrt eine Zeit lang über den rauheren und welligeren Bürgersteig weiter. Die Kombination dieser Inputs verunsichern das Modell zeitweise zu sehr, um den Belag als Asphalt zu klassifizieren. Stattdessen wird dieser Abschnitt deshalb als die wahrscheinlichste Art von Oberfläche klassifiziert; als ein Feldweg.
